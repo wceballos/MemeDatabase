@@ -1,2 +1,2 @@
 # MemeDatabase
-SER322 Project for Meme Databse
+SER322 Project for Meme Database
