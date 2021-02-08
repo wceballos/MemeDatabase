@@ -30,9 +30,11 @@ public class MemeServer {
 		}
 
 		while(true) { // beginning of loop to listen for clients
+			Socket client;
+
 			try {
 
-				Socket client = server.accept();
+				client = server.accept();
 
 				ClientHandler handler = new ClientHandler(client);
 				handler.start();				
