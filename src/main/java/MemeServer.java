@@ -8,6 +8,8 @@ public class MemeServer {
 	*/
 	public static void main (String[] args) {
 		int port;
+		ServerSocket server;
+
 		if (args.length != 1) {
 			port = 8080;
 		} else {
@@ -19,10 +21,15 @@ public class MemeServer {
 			}
 		}
 
+		try {
+			server = new ServerSocket(port);
+		} catch (Exception e) {
+			System.out.println("Issue binding server to port, check that port is not in use.");
+			System.exit(1);
+		}
+
 		while(true) { // beginning of loop to listen for clients
 			try {
-
-				ServerSocket server = new ServerSocket(port);
 
 				Socket client = server.accept();
 
