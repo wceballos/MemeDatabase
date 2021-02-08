@@ -18,6 +18,7 @@ public class MemeServer {
 			} catch (NumberFormatException e) {
 				System.err.println("Arguement is not valid, should be number. Or no arguments supplied for default [8080]");
 				e.printStackTrace();
+				System.exit(1);
 			}
 		}
 
