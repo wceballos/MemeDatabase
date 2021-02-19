@@ -29,19 +29,19 @@ public class MemeDatabase {
         }
     }
 
-    public static logIn (String username, String password) { // verify that the log in is correct using a query against the databse
+    public static boolean logIn (String username, String password) { // verify that the log in is correct using a query against the databse
         // TODO
         // CHECK THAT USER EXISTS
         return true; // test stub
     }
 
-    public static createNewAccount (String username, String password, String email) { // make a query to DB to insert a new account
+    public static boolean createNewAccount (String username, String password, String email) { // make a query to DB to insert a new account
         // TODO
         // NEED TO DO SOME CHECKING TO MAKE SURE THAT USERNAME OR EMAIL DOES NOT EXIT
-        return false // test stub
+        return false; // test stub
     }
 
-    public static getInput (String question) {
+    public static String getInput (String question) {
         Scanner scan = new Scanner(System.in);
         String input = "";
         String confirm = "";
