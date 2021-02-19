@@ -1,0 +1,31 @@
+package MemeDatabase;
+
+public class Account {
+
+    private String accountName;
+    private String userID; // may need to change
+    private String email;
+    private String password;
+
+    public Account (String initAccountName, String initUserID, String initEmail, String initPassword) {
+        this.accountName = initAccountName;
+        this.userID = initUserID;
+        this.email = initEmail;
+        this.password = initPassword;
+    }
+
+    public String getUsername () {
+        return this.username;
+    }
+
+    public String getUserID () {
+        return this.userID;
+    }
+
+    public String getEmail () {
+        return this.email;
+    }
+
+    
+
+}
