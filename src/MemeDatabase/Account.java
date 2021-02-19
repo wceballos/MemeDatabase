@@ -14,8 +14,8 @@ public class Account {
         this.password = initPassword;
     }
 
-    public String getUsername () {
-        return this.username;
+    public String getAccountName () {
+        return this.accountName;
     }
 
     public String getUserID () {
