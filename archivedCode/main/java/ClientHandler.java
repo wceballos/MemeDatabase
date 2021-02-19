@@ -5,7 +5,7 @@ import java.net.*;
 *	Instance that will handle a client's session
 */ 
 
-public class ClientHandle implements Runnable {
+public class ClientHandle extends Thread {
 
 	private Socket client;
 
