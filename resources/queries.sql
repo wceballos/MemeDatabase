@@ -47,3 +47,15 @@ SELECT *
 FROM account
 WHERE username = 'berniegirl'
     AND password = 'bernie4life';
+
+-- 9 - Show the memes a user has viewed
+SELECT meme.meme_id, meme_title, category
+FROM account, viewed, meme
+WHERE viewed.meme_id = meme.meme_id
+    AND account.username = viewed.username
+    AND  account.username = 'lurker';
+
+-- 10 - Count how many favorites every meme has
+SELECT meme.meme_id, meme_title, COUNT(favorite) AS users_favorited
+FROM meme LEFT JOIN viewed v ON meme.meme_id = v.meme_id
+GROUP BY meme.meme_id;

@@ -5,7 +5,7 @@ USE `memes`;
 
 DROP TABLE IF EXISTS `account`;
 CREATE TABLE `account` (
-    `username`      VARCHAR(25) NOT NULL,
+    `username`          VARCHAR(25) NOT NULL,
     `email`             VARCHAR(32) NOT NULL,
     `password`          VARCHAR(32) NOT NULL,
     PRIMARY KEY (`username`)
@@ -22,7 +22,7 @@ CREATE TABLE `meme` (
 
 DROP TABLE IF EXISTS `creates`;
 CREATE TABLE `creates` (
-    `username`      VARCHAR(25) NOT NULL,
+    `username`          VARCHAR(25) NOT NULL,
     `meme_id`           SMALLINT(5) UNSIGNED NOT NULL,
     `last_update`       DATETIME,
     `creation_date`     DATETIME,
@@ -58,7 +58,7 @@ CREATE TABLE `contains` (
 DROP TABLE IF EXISTS `viewed`;
 CREATE TABLE `viewed` (
     `meme_id`           SMALLINT(5) UNSIGNED NOT NULL,
-    `username`      VARCHAR(25) NOT NULL,
+    `username`          VARCHAR(25) NOT NULL,
     `favorite`          BOOLEAN NOT NULL,
     PRIMARY KEY (`meme_id`, `username`),
     FOREIGN KEY (`meme_id`) REFERENCES `meme` (`meme_id`),
