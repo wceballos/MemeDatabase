@@ -7,11 +7,11 @@ public class MemeDatabase {
     private Account account;
 
     public static void main (String[] args) {
-        String username;
-        String password;
-        String email;
+        String username = "";
+        String password = "";
+        String email = "";
         System.out.println("Welcome to Meme Database!");
-        if (getInput("Do you have an account? [y/n] ") != null) { // if the user has an account
+        if (getInput("Do you have an account? [y/n] ").equals("y")) { // if the user has an account
             username = getInput("Username");
             password = getInput("Password");
             boolean isLoggedIn = false;
@@ -19,11 +19,9 @@ public class MemeDatabase {
                 isLoggedIn = logIn(username, password);
             }
         } else { // if the user does not have an account and needs to register an account
-            username = getInput("Enter a username you want");
-            password = getInput("Enter the password you want");
-            email = getInput("Enter your email");
             boolean isCreated = false;
             while (!isCreated) {
+                createAccount(username, password, email);
                 isCreated = createNewAccount(username, password, email);
             }
         }
@@ -38,20 +36,30 @@ public class MemeDatabase {
     public static boolean createNewAccount (String username, String password, String email) { // make a query to DB to insert a new account
         // TODO
         // NEED TO DO SOME CHECKING TO MAKE SURE THAT USERNAME OR EMAIL DOES NOT EXIT
-        return false; // test stub
+        return true; // test stub
     }
 
     public static String getInput (String question) {
         Scanner scan = new Scanner(System.in);
         String input = "";
-        String confirm = "";
-        while (!confirm.equals("y") || !confirm.equals("yes")) {
-            System.out.print(question + ": ");
-            input = scan.nextLine();
-            System.out.print("Is " + input + " correct? [y/n] ");
-            confirm = scan.nextLine();
-        }
+        System.out.print(question + ": ");
+        input = scan.nextLine();
+
         return input;
+    }
+
+    private static void createAccount (String username, String password, String email) {
+        String confirm = "";
+        while (!confirm.equals("y")) {
+            username = getInput("Enter a username you want ");
+            password = getInput("Enter a password you want ");
+            email = getInput("Enter your email addres: ");
+            System.out.println("\n============================\n");
+            System.out.println("Username: " + username);
+            System.out.println("Password: " + password);
+            System.out.println("Email: " + email);
+            confirm = getInput("Does this information look correct? ");
+        }
     }
 
 }
