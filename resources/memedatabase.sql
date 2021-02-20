@@ -19,7 +19,7 @@ CREATE TABLE `meme` (
 
 CREATE TABLE `creates` (
        `account_name` varchar(25) NOT NULL,
-       `account_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+       `account_id` smallint(5) unsigned NOT NULL,
        `meme_id` smallint(5) unsigned NOT NULL,
        `last_update` DATETIME,
        `creation_date` DATETIME,
