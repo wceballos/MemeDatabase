@@ -50,7 +50,7 @@ CREATE TABLE `viewed` (
        `meme_id` smallint(5) unsigned NOT NULL,
        `account_name` varchar(25) NOT NULL,
        `account_id` smallint(5) unsigned NOT NULL,
-       `favorite` BOOLEAN NOT NULL
+       `favorite` BOOLEAN NOT NULL,
        PRIMARY KEY (`meme_id`, `account_id`),
        FOREIGN KEY (`meme_id`) REFERENCES `meme` (`meme_id`),
        FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`)
