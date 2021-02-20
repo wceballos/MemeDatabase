@@ -13,9 +13,9 @@ CREATE TABLE `account` (
 
 DROP TABLE IF EXISTS `meme`;
 CREATE TABLE `meme` (
-    `meme_title`        VARCHAR(32) NOT NULL,
     `meme_id`           SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `category`          VARCHAR(10),
+    `meme_title`        VARCHAR(32) NOT NULL,
+    `category`          VARCHAR(25),
     `visibility`        BOOLEAN NOT NULL,
     PRIMARY KEY (`meme_id`)
 );
@@ -40,7 +40,7 @@ CREATE TABLE `picture` (
 DROP TABLE IF EXISTS `template`;
 CREATE TABLE `template` (
     `template_id`       SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `text_box`          VARCHAR(32),
+    `text_box`          VARCHAR(255),
     PRIMARY KEY (`template_id`)
 );
 
