@@ -21,6 +21,8 @@ public class RenderMeme {
         
         JFrame imageFrame = new JFrame();
         imageFrame.add(label);
+        imageFrame.setResizable(true);
+        imageFrame.setSize(1000, 1000);
         imageFrame.setVisible(true);
     }
 
