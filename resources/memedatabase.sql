@@ -5,31 +5,29 @@ USE `memes`;
 
 DROP TABLE IF EXISTS `account`;
 CREATE TABLE `account` (
-    `account_name`      VARCHAR(25) NOT NULL,
-    `account_id`        SMALLINT(5) UNSIGNED NOT NULL, -- can't be auto incremented because it's part of a composite key
+    `username`      VARCHAR(25) NOT NULL,
     `email`             VARCHAR(32) NOT NULL,
     `password`          VARCHAR(32) NOT NULL,
-    PRIMARY KEY (`account_name`, `account_id`)
+    PRIMARY KEY (`username`)
 );
 
 DROP TABLE IF EXISTS `meme`;
 CREATE TABLE `meme` (
-    `meme_title`        VARCHAR(32) NOT NULL,
     `meme_id`           SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `category`          VARCHAR(10),
+    `meme_title`        VARCHAR(32) NOT NULL,
+    `category`          VARCHAR(25),
     `visibility`        BOOLEAN NOT NULL,
     PRIMARY KEY (`meme_id`)
 );
 
 DROP TABLE IF EXISTS `creates`;
 CREATE TABLE `creates` (
-    `account_name`      VARCHAR(25) NOT NULL,
-    `account_id`        SMALLINT(5) UNSIGNED NOT NULL,
+    `username`      VARCHAR(25) NOT NULL,
     `meme_id`           SMALLINT(5) UNSIGNED NOT NULL,
     `last_update`       DATETIME,
     `creation_date`     DATETIME,
-    PRIMARY KEY (`account_name`, `account_id`, `meme_id`),
-    FOREIGN KEY (`account_name`, `account_id`) REFERENCES `account` (`account_name`, `account_id`),
+    PRIMARY KEY (`username`, `meme_id`),
+    FOREIGN KEY (`username`) REFERENCES `account` (`username`),
     FOREIGN KEY (`meme_id`) REFERENCES `meme` (`meme_id`)
 );
 
@@ -42,7 +40,7 @@ CREATE TABLE `picture` (
 DROP TABLE IF EXISTS `template`;
 CREATE TABLE `template` (
     `template_id`       SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `text_box`          VARCHAR(32),
+    `text_box`          VARCHAR(255),
     PRIMARY KEY (`template_id`)
 );
 
@@ -60,10 +58,9 @@ CREATE TABLE `contains` (
 DROP TABLE IF EXISTS `viewed`;
 CREATE TABLE `viewed` (
     `meme_id`           SMALLINT(5) UNSIGNED NOT NULL,
-    `account_name`      VARCHAR(25) NOT NULL,
-    `account_id`        SMALLINT(5) UNSIGNED NOT NULL,
+    `username`      VARCHAR(25) NOT NULL,
     `favorite`          BOOLEAN NOT NULL,
-    PRIMARY KEY (`meme_id`, `account_id`, `account_name`),
+    PRIMARY KEY (`meme_id`, `username`),
     FOREIGN KEY (`meme_id`) REFERENCES `meme` (`meme_id`),
-    FOREIGN KEY (`account_name`, `account_id`) REFERENCES `account` (`account_name`, `account_id`)
+    FOREIGN KEY (`username`) REFERENCES `account` (`username`)
 );
