@@ -1,4 +1,4 @@
-build:
+ build:
 	javac src/Main.java -d classes/
 
 run:
