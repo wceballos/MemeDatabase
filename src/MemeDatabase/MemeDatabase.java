@@ -9,7 +9,7 @@ public class MemeDatabase {
     public static void main (String[] args) {
 
         // retreieve server details from the command line arguements
-        MySQLDatabase server = new MySQLDatabase(args[0], args[1], args[2]);
+        MySQLServer server = new MySQLServer(args[0], args[1], args[2]);
 
         String username = "";
         String password = "";
@@ -26,7 +26,7 @@ public class MemeDatabase {
             boolean isCreated = false;
             while (!isCreated) {
                 createAccount(username, password, email);
-                isCreated = createNewAccount(username, password, email);
+                isCreated = doCreateAccount(username, password, email);
             }
         }
     }
@@ -64,7 +64,7 @@ public class MemeDatabase {
             System.out.println("Username: " + username);
             System.out.println("Password: " + password);
             System.out.println("Email: " + email);
-            confirm = getInput("Does this information look correct? ");
+            confirm = getInput("Does this information look correct? [y/n]: ");
         }
     }
 
