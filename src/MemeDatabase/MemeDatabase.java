@@ -7,6 +7,10 @@ public class MemeDatabase {
     private Account account;
 
     public static void main (String[] args) {
+
+        // retreieve server details from the command line arguements
+        MySQLDatabase server = new MySQLDatabase(args[0], args[1], args[2]);
+
         String username = "";
         String password = "";
         String email = "";
@@ -33,7 +37,8 @@ public class MemeDatabase {
         return true; // test stub
     }
 
-    public static boolean createNewAccount (String username, String password, String email) { // make a query to DB to insert a new account
+    // actuall creates the account
+    public static boolean doCreateAccount (String username, String password, String email) { // make a query to DB to insert a new account
         // TODO
         // NEED TO DO SOME CHECKING TO MAKE SURE THAT USERNAME OR EMAIL DOES NOT EXIT
         return true; // test stub
@@ -48,6 +53,7 @@ public class MemeDatabase {
         return input;
     }
 
+    // get details for new account
     private static void createAccount (String username, String password, String email) {
         String confirm = "";
         while (!confirm.equals("y")) {
