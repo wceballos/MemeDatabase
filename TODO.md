@@ -14,4 +14,3 @@
 
 - Update any all diagrams and queries
 
-
