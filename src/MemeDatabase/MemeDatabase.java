@@ -6,14 +6,16 @@ public class MemeDatabase {
 
     private Account account;
     private MySQLServer server;
+    private Scanner scan;
 
     public MemeDatabase (MySQLServer server) {
         this.server = server;
+        scan = new Scanner(System.in);
     }
 
     public static void main (String[] args) {
 
-        MemeDatabase prog = new MemeDatabase(new MySQLServer(args[0], args[1], args[2]);
+        MemeDatabase prog = new MemeDatabase(new MySQLServer(args[0], args[1], args[2]));
 
         String username = "";
         String password = "";
