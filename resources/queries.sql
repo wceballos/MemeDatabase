@@ -47,3 +47,8 @@ SELECT *
 FROM account
 WHERE username = 'berniegirl'
     AND password = 'bernie4life';
+
+-- 9 - search meme by category
+SELECT *
+FROM meme
+WHERE meme.category = 'Bernie'
