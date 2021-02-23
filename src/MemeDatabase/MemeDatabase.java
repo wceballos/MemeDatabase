@@ -77,6 +77,29 @@ public class MemeDatabase {
     public void run () {
         while (true) {
             String option = menu();
+            switch (option) {
+                case "1" :
+                    // do something
+                    break;
+                case "2" :
+                    // do something
+                    break;
+                case "3" :
+                    // do something
+                    break;
+                case "4" :
+                    // do something
+                    break;
+                case "5" :
+                    // do something
+                    break;
+                case "6" :
+                    // do something
+                    break;
+                default :
+                    System.out.println("Wrong input");
+                    continue;
+            }
         }
     }
 
