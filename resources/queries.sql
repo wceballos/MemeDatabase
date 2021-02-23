@@ -20,7 +20,7 @@ VALUE ('Goosebumps', 'Goosebumps-7843.png');
 INSERT INTO contains
 VALUE (7, 'Goosebumps', 5);
 
--- 4 - Search for a meme
+-- 4 - Search for a meme by title
 SELECT *
 FROM meme,
      (SELECT contains.meme_id
