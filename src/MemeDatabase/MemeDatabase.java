@@ -84,6 +84,10 @@ public class MemeDatabase {
         System.out.println("\t1. Search for meme by category");
         System.out.println("\t3. Add a meme to favorite");
         System.out.println("\t4. View a meme");
-        System.out.println("");
+        System.out.println("\t5. Add a new meme");
+        System.out.println("\t6. Delete a meme");
+        System.out.print(">> ");
+        return scan.nextLine();
+    }
 
 }
