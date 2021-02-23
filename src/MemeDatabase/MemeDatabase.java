@@ -5,11 +5,15 @@ import java.util.Scanner;
 public class MemeDatabase {
 
     private Account account;
+    private MySQLServer server;
+
+    public MemeDatabase (MySQLServer server) {
+        this.server = server;
+    }
 
     public static void main (String[] args) {
 
-        // retreieve server details from the command line arguements
-        MySQLServer server = new MySQLServer(args[0], args[1], args[2]);
+        MemeDatabase prog = new MemeDatabase(new MySQLServer(args[0], args[1], args[2]);
 
         String username = "";
         String password = "";
