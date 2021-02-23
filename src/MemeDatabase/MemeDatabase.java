@@ -115,4 +115,10 @@ public class MemeDatabase {
         return scan.nextLine();
     }
 
+    public void searchMemeByTitle () {
+        System.out.print("Enter a title to search by: ");
+        String title = scan.nextLine();
+        // initiate query;
+    }
+
 }
