@@ -18,7 +18,7 @@ public class FileImporter {
             FileInputStream fileIn = new FileInputStream(file);
             String fileName = file.getName();
             String fileNameParts[] = fileName.split(".");
-            FileOutputStream fileOut = new FileOutputStream("memes/"+Integer.toString(meme_id) + "." + fileNameParts[1]);
+            FileOutputStream fileOut = new FileOutputStream("memes/"+Integer.toString(meme_id) + ".jpg");
             int n;
             while ((n = fileIn.read()) != -1) {
                 fileOut.write(n);
