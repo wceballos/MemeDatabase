@@ -9,7 +9,6 @@ public class Account {
 
     public Account (String initAccountName, String initUserID, String initEmail, String initPassword) {
         this.accountName = initAccountName;
-        this.userID = initUserID;
         this.email = initEmail;
         this.password = initPassword;
     }
