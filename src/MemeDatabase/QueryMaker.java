@@ -1,0 +1,188 @@
+package MemeDatabase;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+
+public class QueryMaker {
+
+    private static Connection makeConnection (MySQLServer ms) throws SQLException, ClassNotFoundException {
+        Class.forName(ms.getDriver());
+        Connection conn = DriverManager.getConnection(ms.getURL(), ms.getUsername(), ms.getPassword());
+        return conn;
+    }
+
+    private static void closeConnection (Connection conn, Statement stmt, ResultSet rs) {
+        try {
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (Throwable t) {
+            System.err.println("Database leak has occured as the program had issues properly closing database connection");
+        }
+    }
+
+    public static Account logIn (MySQLServer ms, String username, String password) {
+        Account temp = null;
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = QueryMaker.makeConnection(ms);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("select * from account where username = " + username + "and password = " + password);
+            if (!rs.isBeforeFirst()) {
+                return null;
+            }
+            closeConnection(conn, stmt, rs);
+            temp = new Account(rs.getString(1), rs.getString(2), rs.getString(3));  
+        } catch (SQLException e) {
+            System.err.println("Error fulfilling the task");
+            temp = null;
+        } catch (ClassNotFoundException a) {
+            System.err.println("There is an issue with the driver specified by client");
+            temp = null;
+        } finally {
+            closeConnection(conn, stmt, rs);
+        }
+        return temp;
+    }
+
+    public static void getFavoriteMeme (MySQLServer ms, Account a) {
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = QueryMaker.makeConnection(ms);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("select viewed.meme_id from viewed left join account on viewed.username = account.username where favorite = TRUE and viewed.username = '" + a.getAccountName() + "'");
+            while (rs.next()) {
+                System.out.println("\t"+rs.getInt(1));
+            }
+        } catch (SQLException e) {
+            System.err.println("Issue fulfilling request with database, check connection");
+        } catch (ClassNotFoundException c) {
+            System.err.println("There is an issue with the driver specified by client");
+        } finally {
+            closeConnection(conn, stmt, rs);
+        }
+    }
+
+    public static void searchByTitle (MySQLServer ms, String title) {
+        String query = "select * from meme, (select contains.meme_id from contains where contains.picture_title = '"+ title + "') as B where meme.meme_id = B.mem_id";
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = QueryMaker.makeConnection(ms);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                System.out.print("\t");
+                System.out.print("Meme title: " + rs.getString(2) + "\n");
+                System.out.print("\t\tMeme ID: " + rs.getInt(1) + "\n");
+                System.out.print("\t\tCategory: " + rs.getString(3) + "\n");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error occured while searching, please check database connection");
+        } catch (ClassNotFoundException a) {
+            System.err.println("There is an issue with the driver specified by client");
+        } finally {
+            closeConnection(conn, stmt, rs);
+        }
+    }
+
+    public static void favoriteMeme (MySQLServer ms, Account a, int id) {
+        String query = "update viewed set viewed.favorite = TRUE where viewed.username = '"+a.getAccountName()+"' and viewed.meme_id = "+id;
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            conn = QueryMaker.makeConnection(ms);
+            stmt = conn.createStatement();
+            stmt.executeQuery(query);
+            System.out.println("Update complete");
+        } catch (SQLException e) {
+            System.out.println("Error trying to favorite a meme, check connection to database");
+        } catch (ClassNotFoundException c) {
+            System.err.println("There is an issue with the driver specified by client");
+        } finally {
+            closeConnection(conn, stmt, null);
+        }
+    }
+
+    public static boolean viewMeme (MySQLServer ms, Account a, int id) {
+        String query = "select meme_id from meme where meme.meme_id = " + id;
+        boolean condition = false;
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = QueryMaker.makeConnection(ms);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            if (!rs.isBeforeFirst()) {
+                throw new SQLException();
+            }
+            query = "insert into viewed value("+id+","+ a.getAccountName() +",FALSE)";
+            stmt.executeQuery(query);
+            condition = true;
+        } catch (SQLException e) {
+            System.out.println("An issue occured with the query, try specifying a valid id for a meme");
+            condition = false;
+        } catch (ClassNotFoundException c) {
+            System.err.println("There is an issue with the driver specified by client");
+            condition = false;
+        } finally {
+            closeConnection(conn, stmt, null);
+            return condition;
+        }
+    }
+
+    public static void deleteMeme (MySQLServer ms, int id) {
+        String query = "delete from meme where meme_id = " + id;
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            conn = QueryMaker.makeConnection(ms);
+            stmt = conn.createStatement();
+            stmt.executeQuery(query);
+        } catch (SQLException e) {
+            System.err.println("Error occured deleting meme, check connection");
+        } catch (ClassNotFoundException a) {
+            System.err.println("There is an issue with the driver specified by client");
+        } finally {
+            closeConnection(conn, stmt, null);
+        }
+    }
+
+    public static void searchByCategory (MySQLServer ms, String cat) {
+        String query = "select * from meme where meme.category = " + cat;
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = QueryMaker.makeConnection(ms);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            if (!rs.isBeforeFirst()) {
+                throw new Exception();
+            }
+            while (rs.next()) {
+                System.out.println("\tMeme id: " + rs.getInt(1));
+                System.out.println("\t\tMeme title: " + rs.getString(2));
+
+            }
+        } catch (SQLException e) {
+            System.err.println("Issue searching by category, check connection");
+        } catch (ClassNotFoundException a) {
+            System.err.println("There is an issue with the driver specified by client");
+        } catch (Exception e) {
+            System.err.println("Category specified was invalid");
+        } finally {
+            closeConnection(conn, stmt, rs);
+        }
+    }
+
+}
