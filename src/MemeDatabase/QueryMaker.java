@@ -29,25 +29,32 @@ public class QueryMaker {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
+        String query = "select account.username, account.email, account.password from account where account.username = " + "'" + username + "'" + " and account.password = " + "'" + password + "'";
+        System.out.println(query);
         try {
+            Class.forName(ms.getDriver());
             conn = QueryMaker.makeConnection(ms);
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("select * from account where username = " + username + "and password = " + password);
-            if (!rs.isBeforeFirst()) {
-                return null;
+            rs = stmt.executeQuery(query);
+            if (!rs.next()) {
+                temp = null;
+                throw new Exception();
             }
-            closeConnection(conn, stmt, rs);
             temp = new Account(rs.getString(1), rs.getString(2), rs.getString(3));  
         } catch (SQLException e) {
             System.err.println("Error fulfilling the task");
+            e.printStackTrace();
+            System.exit(1);
             temp = null;
         } catch (ClassNotFoundException a) {
             System.err.println("There is an issue with the driver specified by client");
             temp = null;
+        } catch (Exception l) {
+            System.err.println("Account does not exist");
         } finally {
             closeConnection(conn, stmt, rs);
+            return temp;
         }
-        return temp;
     }
 
     public static void getFavoriteMeme (MySQLServer ms, Account a) {
