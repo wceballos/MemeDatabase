@@ -87,7 +87,7 @@ public class MemeDatabase {
                     searchMemeByCategory();
                     break;
                 case "3" :
-                    // do something
+                    makeFavorite();
                     break;
                 case "4" :
                     // do something
@@ -127,6 +127,12 @@ public class MemeDatabase {
         System.out.print("Enter a title to search by: ");
         String category = scan.nextLine();
         QueryMaker.searchByCategory(server, category);
+    }
+
+    public void makeFavorite() {
+        System.out.println("Enter the meme id:");
+        int temp = scan.nextInt();
+        QueryMaker.favoriteMeme(server, account, temp);
     }
 
 }

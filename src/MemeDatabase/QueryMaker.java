@@ -16,7 +16,9 @@ public class QueryMaker {
 
     private static void closeConnection (Connection conn, Statement stmt, ResultSet rs) {
         try {
-            rs.close();
+            if (rs != null) {
+                rs.close();
+            }
             stmt.close();
             conn.close();
         } catch (Throwable t) {
@@ -102,13 +104,14 @@ public class QueryMaker {
     }
 
     public static void favoriteMeme (MySQLServer ms, Account a, int id) {
-        String query = "update viewed set viewed.favorite = TRUE where viewed.username = '"+a.getAccountName()+"' and viewed.meme_id = "+id;
+        String query = "update viewed set viewed.favorite = true where viewed.username = '"+a.getAccountName()+"' and viewed.meme_id = "+id;
+        System.out.println(query);
         Connection conn = null;
         Statement stmt = null;
         try {
             conn = QueryMaker.makeConnection(ms);
             stmt = conn.createStatement();
-            stmt.executeQuery(query);
+            stmt.executeUpdate(query);
             System.out.println("Update complete");
         } catch (SQLException e) {
             System.out.println("Error trying to favorite a meme, check connection to database");
