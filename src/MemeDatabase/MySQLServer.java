@@ -9,11 +9,13 @@ public class MySQLServer {
     private String url;
     private String username;
     private String password;
+    private String driver;
 
-    public MySQLServer (String url, String username, String password) {
+    public MySQLServer (String url, String username, String password, String driver) {
         this.url = url;
         this.username = username;
         this.password = password;
+        this.driver = driver;
     }
 
     public String getURL () {
@@ -26,6 +28,10 @@ public class MySQLServer {
 
     public String getPassword () {
         return this.password;
+    }
+
+    public String getDriver () {
+        return this.driver;
     }
 
 }
