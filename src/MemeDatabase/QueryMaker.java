@@ -78,7 +78,7 @@ public class QueryMaker {
     }
 
     public static void searchByTitle (MySQLServer ms, String title) {
-        String query = "select * from meme, (select contains.meme_id from contains where contains.picture_title = '"+ title + "') as B where meme.meme_id = B.mem_id";
+        String query = "select * from meme, (select contains.meme_id from contains where contains.picture_title = '"+ title + "') as B where meme.meme_id = B.meme_id";
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -165,7 +165,7 @@ public class QueryMaker {
     }
 
     public static void searchByCategory (MySQLServer ms, String cat) {
-        String query = "select * from meme where meme.category = " + cat;
+        String query = "select * from meme where meme.category = " +"'"+ cat+"'";
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
