@@ -3,7 +3,7 @@ package MemeDatabase;
 public class Meme {
 
     private String id;
-    private Strinf title;
+    private String title;
     private String category;
     private String visibility;
 
@@ -11,7 +11,7 @@ public class Meme {
         this.id = id;
         this.title = title;
         this.category = category;
-        this,visibility = vis;
+        this.visibility = vis;
     }
 
     public String getID () {
@@ -23,11 +23,11 @@ public class Meme {
     }
 
     public String getCategory () {
-        return this,category;
+        return this.category;
     }
 
     public String getVisibility () {
-        return this,visibility;
+        return this.visibility;
     }
 
 }
