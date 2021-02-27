@@ -100,8 +100,8 @@ public class MemeDatabase {
                     deleteMeme();
                     break;
                 default :
-                    //System.out.println("Wrong input");
-                    continue;
+                    System.out.println("Wrong input");
+                    break;
             }
         }
     }
