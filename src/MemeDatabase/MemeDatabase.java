@@ -90,7 +90,7 @@ public class MemeDatabase {
                     makeFavorite();
                     break;
                 case "4" :
-                    // do something
+                    viewMeme();
                     break;
                 case "5" :
                     // do something
@@ -99,7 +99,7 @@ public class MemeDatabase {
                     // do something
                     break;
                 default :
-                    System.out.println("Wrong input");
+                    //System.out.println("Wrong input");
                     continue;
             }
         }
@@ -133,6 +133,13 @@ public class MemeDatabase {
         System.out.println("Enter the meme id:");
         int temp = scan.nextInt();
         QueryMaker.favoriteMeme(server, account, temp);
+    }
+
+    public void viewMeme () {
+        System.out.println("Enter a meme id to viewed: ");
+        System.out.print(">> ");
+        int i = scan.nextInt();
+        QueryMaker.viewMeme(server, account, i);
     }
 
 }

@@ -132,11 +132,16 @@ public class QueryMaker {
             conn = QueryMaker.makeConnection(ms);
             stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
-            if (!rs.isBeforeFirst()) {
+            if (!rs.next()) {
                 throw new SQLException();
             }
-            query = "insert into viewed value("+id+","+ a.getAccountName() +",FALSE)";
-            stmt.executeQuery(query);
+            stmt = conn.createStatement();
+            query = "insert into viewed value("+id+","+"'"+ a.getAccountName()+"'" +",false)";
+            try {
+                stmt.executeUpdate(query);
+            } catch (Exception e) {
+                // do nothing
+            }
             condition = true;
         } catch (SQLException e) {
             System.out.println("An issue occured with the query, try specifying a valid id for a meme");
