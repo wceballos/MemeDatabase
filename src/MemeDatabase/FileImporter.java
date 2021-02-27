@@ -1,3 +1,5 @@
+package MemeDatabase;
+
 import javax.swing.JFileChooser;
 
 import java.io.FileInputStream;
