@@ -8,26 +8,26 @@ public class MemeDatabase {
     private MySQLServer server;
     private Scanner scan;
 
-    public MemeDatabase (MySQLServer server) {
+    public MemeDatabase (MySQLServer server, Account acc) {
         this.server = server;
+        this.account = acc;
         scan = new Scanner(System.in);
     }
 
     public static void main (String[] args) {
 
-        MemeDatabase prog = new MemeDatabase(new MySQLServer(args[0], args[1], args[2], args[3]));
+        Account acc = null;
+        MySQLServer ms = new MySQLServer(args[0], args[1], args[2], args[3]);
 
         String username = "";
         String password = "";
         String email = "";
         System.out.println("Welcome to Meme Database!");
         if (getInput("Do you have an account? [y/n] ").equals("y")) { // if the user has an account
-            username = getInput("Username");
-            password = getInput("Password");
-            boolean isLoggedIn = false;
-            while (!isLoggedIn) {
-                isLoggedIn = logIn(username, password);
+            while (acc == null) {
+                acc = logIn(ms);
             }
+            System.out.println("We have located your account, welcome!");
         } else { // if the user does not have an account and needs to register an account
             boolean isCreated = false;
             while (!isCreated) {
@@ -35,25 +35,26 @@ public class MemeDatabase {
                 isCreated = doCreateAccount(username, password, email);
             }
         }
+        MemeDatabase prog = new MemeDatabase (ms, acc);
     }
 
-    public static boolean logIn (String username, String password) { // verify that the log in is correct using a query against the databse
-        // TODO
-        // CHECK THAT USER EXISTS
-        return true; // test stub
+    public static Account logIn (MySQLServer ms) { // verify that the log in is correct using a query against the databse
+        String username = getInput("Username");
+        String password = getInput("Password");
+        return QueryMaker.logIn(ms, username, password);
     }
 
     // actuall creates the account
     public static boolean doCreateAccount (String username, String password, String email) { // make a query to DB to insert a new account
         // TODO
         // NEED TO DO SOME CHECKING TO MAKE SURE THAT USERNAME OR EMAIL DOES NOT EXIT
-        return true; // test stub
+        return true; // test stuf
     }
 
     public static String getInput (String question) {
         Scanner scan = new Scanner(System.in);
         String input = "";
-        System.out.print(question + ": ");
+        System.out.println(question + ": ");
         input = scan.nextLine();
 
         return input;
