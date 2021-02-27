@@ -36,6 +36,7 @@ public class MemeDatabase {
             }
         }
         MemeDatabase prog = new MemeDatabase (ms, acc);
+        prog.run();
     }
 
     public static Account logIn (MySQLServer ms) { // verify that the log in is correct using a query against the databse
@@ -80,10 +81,10 @@ public class MemeDatabase {
             String option = menu();
             switch (option) {
                 case "1" :
-                    // do something
+                    searchMemeByTitle();
                     break;
                 case "2" :
-                    // do something
+                    searchMemeByCategory();
                     break;
                 case "3" :
                     // do something
@@ -119,7 +120,13 @@ public class MemeDatabase {
     public void searchMemeByTitle () {
         System.out.print("Enter a title to search by: ");
         String title = scan.nextLine();
-        // initiate query;
+        QueryMaker.searchByTitle(server, title);
+    }
+
+    public void searchMemeByCategory () {
+        System.out.print("Enter a title to search by: ");
+        String category = scan.nextLine();
+        QueryMaker.searchByCategory(server, category);
     }
 
 }
