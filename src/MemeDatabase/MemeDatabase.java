@@ -29,10 +29,12 @@ public class MemeDatabase {
             }
             System.out.println("We have located your account, welcome!");
         } else { // if the user does not have an account and needs to register an account
-            boolean isCreated = false;
-            while (!isCreated) {
+            while (acc == null) {
                 createAccount(username, password, email);
-                isCreated = doCreateAccount(username, password, email);
+                acc = doCreateAccount(ms, username, password, email);
+                if (acc == null) {
+                    System.out.println("username is already taken");
+                }
             }
         }
         MemeDatabase prog = new MemeDatabase (ms, acc);
@@ -46,9 +48,8 @@ public class MemeDatabase {
     }
 
     // actuall creates the account
-    public static boolean doCreateAccount (String username, String password, String email) { // make a query to DB to insert a new account
-        // TODO
-        // NEED TO DO SOME CHECKING TO MAKE SURE THAT USERNAME OR EMAIL DOES NOT EXIT
+    public static boolean doCreateAccount (MySQLServer ms, String username, String password, String email) { // make a query to DB to insert a new account
+        Account temp = QueryMaker.createAccount(ms, username, email, password);
         return true; // test stuf
     }
 
@@ -96,7 +97,7 @@ public class MemeDatabase {
                     // do something
                     break;
                 case "6" :
-                    // do something
+                    deleteMeme();
                     break;
                 default :
                     //System.out.println("Wrong input");
@@ -140,6 +141,25 @@ public class MemeDatabase {
         System.out.print(">> ");
         int i = scan.nextInt();
         QueryMaker.viewMeme(server, account, i);
+        String location = "meme/" + i + ".jpg";
+        try {
+            RenderMeme.render(location);
+        } catch (Exception e) {
+            location = "meme/" + i + ".png";
+            try {
+                RenderMeme.render(location);
+            } catch (Exception a) {
+                location = "meme/Duckroll.jpg";
+                RenderMeme.render(location);
+            }
+        }
+    }
+
+    public void deleteMeme () {
+        System.out.println("Enter a meme id: ");
+        System.out.print(">> ");
+        int id = scan.nextInt();
+        QueryMaker.deleteMeme(server, id);
     }
 
 }

@@ -162,7 +162,7 @@ public class QueryMaker {
         try {
             conn = QueryMaker.makeConnection(ms);
             stmt = conn.createStatement();
-            stmt.executeQuery(query);
+            stmt.executeUpdate(query);
         } catch (SQLException e) {
             System.err.println("Error occured deleting meme, check connection");
         } catch (ClassNotFoundException a) {
@@ -198,6 +198,33 @@ public class QueryMaker {
         } finally {
             closeConnection(conn, stmt, rs);
         }
+    }
+
+    public static Account createAccount (MySQLServer ms, String username, String email, String password) {
+        String query;
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        String preQuery = "select username from meme where username = '" + username + "'";
+        Account temp = null;
+        try {
+            conn = QueryMaker.makeConnection(ms);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(preQuery);
+            if (!rs.next()) {
+                stmt = conn.createStatement();
+                stmt.executeUpdate(query);
+                temp = new Account(username, email, password);
+            } else {
+                temp = null;
+            }
+        } catch (SQLException e) {
+            
+        } finally {
+            closeConnection(conn, stmt, rs);
+            return temp;
+        }
+         
     }
 
 }
