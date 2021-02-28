@@ -149,7 +149,7 @@ public class MemeDatabase {
     public void addMeme () {
         String memeTitle = "";
         String category = "";
-        String userName = account.getUsername();
+        String username = account.getAccountName();
         // datetime shit
         String pictureTitle = "";
         String pictureURI = "";
@@ -161,13 +161,15 @@ public class MemeDatabase {
             category = scan.nextLine();
             System.out.print("Enter the title for the picture: \n>> ");
             pictureTitle = scan.nextLine();
-            pictureURI = "none";
+            System.out.print("Enter the location of the picture, press ENTER to continue");
+            scan.nextLine();
+            pictureURI = FileImporter.importMeme();
             System.out.println("Does this information above look correct? [y/n]");
             System.out.print(">> ");
             done = scan.nextLine();
         }
 
-        QueryMaker.addMeme(server, memeTitle, category, username, pictureURI, pictureURI);
+        QueryMaker.addMeme(server, memeTitle, category, username, pictureTitle, pictureURI);
 
     }
 

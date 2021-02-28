@@ -1,3 +1,4 @@
+
 DROP DATABASE IF EXISTS `memes`;
 CREATE DATABASE IF NOT EXISTS `memes`;
 USE `memes`;
@@ -23,7 +24,7 @@ CREATE TABLE `meme` (
 DROP TABLE IF EXISTS `creates`;
 CREATE TABLE `creates` (
     `username`      VARCHAR(25) NOT NULL,
-    `meme_id`           SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `meme_id`           SMALLINT(5) UNSIGNED NOT NULL,
     `last_update`       DATETIME,
     `creation_date`     DATETIME,
     PRIMARY KEY (`username`, `meme_id`),
@@ -48,7 +49,7 @@ DROP TABLE IF EXISTS `contains`;
 CREATE TABLE `contains` (
     `meme_id`           SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
     `picture_title`     VARCHAR(25) NOT NULL,
-    `template_id`       SMALLINT(32) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `template_id`       SMALLINT(32) UNSIGNED NOT NULL,
     PRIMARY KEY (`meme_id`, `picture_title`,  `template_id`),
     FOREIGN KEY (`meme_id`)  REFERENCES `meme` (`meme_id`),
     FOREIGN KEY (`picture_title`) REFERENCES `picture` (`picture_title`),

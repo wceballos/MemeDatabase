@@ -9,7 +9,7 @@ import java.io.File;
 
 public class FileImporter {
 
-    public static boolean importMeme (int meme_id) {
+    public static String importMeme () {
 
         JFileChooser chooser = new JFileChooser();
         try {
@@ -18,17 +18,17 @@ public class FileImporter {
             FileInputStream fileIn = new FileInputStream(file);
             String fileName = file.getName();
             String fileNameParts[] = fileName.split(".");
-            FileOutputStream fileOut = new FileOutputStream("memes/"+Integer.toString(meme_id) + ".jpg");
+            FileOutputStream fileOut = new FileOutputStream("memes/"+file.getName());
             int n;
             while ((n = fileIn.read()) != -1) {
                 fileOut.write(n);
             }
             fileIn.close();
             fileOut.close();
-            return true;
+            return "memes/"+file.getName();
         } catch (IOException e) {
             System.err.println("An error occured importing file!");
-            return false;
+            return null;
         }
 
     }

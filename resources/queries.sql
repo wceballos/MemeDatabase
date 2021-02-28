@@ -19,6 +19,8 @@ INSERT INTO picture
 VALUE ('Goosebumps', 'Goosebumps-7843.png');
 INSERT INTO contains
 VALUE (7, 'Goosebumps', 5);
+INSERT INTO template
+VALUE (5);
 
 -- 4 - Search for a meme by title
 SELECT *

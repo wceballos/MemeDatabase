@@ -227,21 +227,34 @@ public class QueryMaker {
          
     }
 
-    public static void addMeme (MySQLServer server, String memeTitle, String category, String username, String pictureTitle, String pictureURI) {
+    public static void addMeme (MySQLServer ms, String memeTitle, String category, String username, String pictureTitle, String pictureURI) {
         String query = "";
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
-        query = "insert into meme value('"+memeTitle + "','" + category +"'," +"TRUE" ")";
-        query = query + " insert into creates value('" + username"',"+ "GETDATE(), GETDATE())";
-        query = qeury + " insert into picture value('" + pictureURI + "','" + pictureURI + ")";
-        query = query + " insert into contain value('"+pictureTitle "')";
+        query = "insert into meme(meme_title, category, visibility) value('"+memeTitle + "','" + category +"'," +"TRUE)";
+        //query[1] = "insert into creates(username, last_update, creation_date) value('" + username+"',"+ "(SELECT CURRENT_TIMESTAMP), (SELECT CURRENT_TIMESTAMP))";
+        //query[2] = "insert into picture value('" + pictureTitle + "','" + pictureURI + ")";
+        //query[3] = "insert into contains(picture_title) value('"+pictureTitle + "')";
         try {
             conn = QueryMaker.makeConnection(ms);
             stmt = conn.createStatement();
             stmt.executeUpdate(query);
+            rs = stmt.executeQuery("select meme_id from meme where meme_title = '" + memeTitle + "'");
+            rs.next();
+            int temp_id = rs.getInt(1);
+            query = "insert into creates(username, meme_id, last_update, creation_date) value('" + username+"',"+ temp_id  + ",(SELECT CURRENT_TIMESTAMP), (SELECT CURRENT_TIMESTAMP))";
+            stmt.executeUpdate(query);
+            query = "insert into picture value('" + pictureTitle + "','" + pictureURI + "')";
+            stmt.executeUpdate(query);
+            query = "insert into template(template_id) value(" + temp_id + ")";
+            stmt.executeUpdate(query);
+            query = "insert into contains(meme_id ,picture_title, template_id) value("+temp_id+ ",'" +pictureTitle + "'," + temp_id + ")";
+            stmt.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception a) {
+            a.printStackTrace();
         } finally {
             closeConnection(conn, stmt, rs);
         }
