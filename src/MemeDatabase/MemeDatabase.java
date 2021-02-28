@@ -93,12 +93,15 @@ public class MemeDatabase {
                     makeFavorite();
                     break;
                 case "4" :
-                    viewMeme();
+                    viewListFavs();
                     break;
                 case "5" :
-                    // do something
+                    viewMeme();
                     break;
                 case "6" :
+                    addMeme();
+                    break;
+                case "7" :
                     deleteMeme();
                     break;
                 default :
@@ -113,9 +116,10 @@ public class MemeDatabase {
         System.out.println("\t1. Search for meme by title");
         System.out.println("\t1. Search for meme by category");
         System.out.println("\t3. Add a meme to favorite");
-        System.out.println("\t4. View a meme");
-        System.out.println("\t5. Add a new meme");
-        System.out.println("\t6. Delete a meme");
+        System.out.println("\t4. View list of favorite memes");
+        System.out.println("\t5. View a meme");
+        System.out.println("\t6. Add a new meme");
+        System.out.println("\t7. Delete a meme");
         System.out.print(">> ");
         return scan.nextLine();
     }
@@ -136,6 +140,35 @@ public class MemeDatabase {
         System.out.println("Enter the meme id:");
         int temp = scan.nextInt();
         QueryMaker.favoriteMeme(server, account, temp);
+    }
+
+    public void viewListFavs () {
+        QueryMaker.getFavoriteMeme(server, account);
+    }
+
+    public void addMeme () {
+        String memeTitle = "";
+        String category = "";
+        String userName = account.getUsername();
+        // datetime shit
+        String pictureTitle = "";
+        String pictureURI = "";
+        String done = "";
+        while (!done.equals("y")) {
+            System.out.print("Enter a meme title: \n>> ");
+            memeTitle = scan.nextLine();
+            System.out.print("Enter a category for the meme: \n>> ");
+            category = scan.nextLine();
+            System.out.print("Enter the title for the picture: \n>> ");
+            pictureTitle = scan.nextLine();
+            pictureURI = "none";
+            System.out.println("Does this information above look correct? [y/n]");
+            System.out.print(">> ");
+            done = scan.nextLine();
+        }
+
+        QueryMaker.addMeme(server, memeTitle, category, username, pictureURI, pictureURI);
+
     }
 
     public void viewMeme () {

@@ -227,4 +227,24 @@ public class QueryMaker {
          
     }
 
+    public static void addMeme (MySQLServer server, String memeTitle, String category, String username, String pictureTitle, String pictureURI) {
+        String query = "";
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        query = "insert into meme value('"+memeTitle + "','" + category +"'," +"TRUE" ")";
+        query = query + " insert into creates value('" + username"',"+ "GETDATE(), GETDATE())";
+        query = qeury + " insert into picture value('" + pictureURI + "','" + pictureURI + ")";
+        query = query + " insert into contain value('"+pictureTitle "')";
+        try {
+            conn = QueryMaker.makeConnection(ms);
+            stmt = conn.createStatement();
+            stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(conn, stmt, rs);
+        }
+    }
+
 }
