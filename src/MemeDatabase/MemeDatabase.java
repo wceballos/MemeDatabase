@@ -79,21 +79,6 @@ public class MemeDatabase {
         return input;
     }
 
-    // get details for new account
-    private static void createAccount (String username, String password, String email) {
-        String confirm = "";
-        while (!confirm.equals("y")) {
-            username = getInput("Enter a username you want ");
-            password = getInput("Enter a password you want ");
-            email = getInput("Enter your email addres: ");
-            System.out.println("\n============================\n");
-            System.out.println("Username: " + username);
-            System.out.println("Password: " + password);
-            System.out.println("Email: " + email);
-            confirm = getInput("Does this information look correct? [y/n]: ");
-        }
-    }
-
     public void run () {
         while (true) {
             String option = menu();
