@@ -8,59 +8,52 @@ public class MemeDatabase {
     private MySQLServer server;
     private Scanner scan;
 
-    public MemeDatabase (MySQLServer server) {
+    public MemeDatabase (MySQLServer server, Account acc) {
         this.server = server;
+        this.account = acc;
         scan = new Scanner(System.in);
     }
 
     public static void main (String[] args) {
 
-        MemeDatabase prog = new MemeDatabase(new MySQLServer(args[0], args[1], args[2]));
+        Account acc = null;
+        MySQLServer ms = new MySQLServer(args[0], args[1], args[2], args[3]);
 
         String username = "";
         String password = "";
         String email = "";
         System.out.println("Welcome to Meme Database!");
         if (getInput("Do you have an account? [y/n] ").equals("y")) { // if the user has an account
-            username = getInput("Username");
-            password = getInput("Password");
-            boolean isLoggedIn = false;
-            while (!isLoggedIn) {
-                isLoggedIn = logIn(username, password);
+            while (acc == null) {
+                acc = logIn(ms);
             }
+            System.out.println("We have located your account, welcome!");
         } else { // if the user does not have an account and needs to register an account
-            boolean isCreated = false;
-            while (!isCreated) {
-                createAccount(username, password, email);
-                isCreated = doCreateAccount(username, password, email);
+            while (acc == null) {
+                //createAccount(username, password, email);
+                //System.out.println("Account: " + username + email + password);
+                acc = doCreateAccount(ms);
+                if (acc == null) {
+                    System.out.println("username is already taken, try again");
+                }
             }
         }
+        MemeDatabase prog = new MemeDatabase (ms, acc);
+        prog.run();
     }
 
-    public static boolean logIn (String username, String password) { // verify that the log in is correct using a query against the databse
-        // TODO
-        // CHECK THAT USER EXISTS
-        return true; // test stub
+    public static Account logIn (MySQLServer ms) { // verify that the log in is correct using a query against the databse
+        String username = getInput("Username");
+        String password = getInput("Password");
+        return QueryMaker.logIn(ms, username, password);
     }
 
     // actuall creates the account
-    public static boolean doCreateAccount (String username, String password, String email) { // make a query to DB to insert a new account
-        // TODO
-        // NEED TO DO SOME CHECKING TO MAKE SURE THAT USERNAME OR EMAIL DOES NOT EXIT
-        return true; // test stub
-    }
+    public static Account doCreateAccount (MySQLServer ms) { // make a query to DB to insert a new account
+        String username = "";
+        String email = "";
+        String password = "";
 
-    public static String getInput (String question) {
-        Scanner scan = new Scanner(System.in);
-        String input = "";
-        System.out.print(question + ": ");
-        input = scan.nextLine();
-
-        return input;
-    }
-
-    // get details for new account
-    private static void createAccount (String username, String password, String email) {
         String confirm = "";
         while (!confirm.equals("y")) {
             username = getInput("Enter a username you want ");
@@ -72,6 +65,18 @@ public class MemeDatabase {
             System.out.println("Email: " + email);
             confirm = getInput("Does this information look correct? [y/n]: ");
         }
+        //System.out.println("Account: " + username + email + password);
+        return QueryMaker.createAccount(ms, username, email, password);
+        //return temp;
+    }
+
+    public static String getInput (String question) {
+        Scanner scan = new Scanner(System.in);
+        String input = "";
+        System.out.println(question + ": ");
+        input = scan.nextLine();
+
+        return input;
     }
 
     public void run () {
@@ -79,26 +84,29 @@ public class MemeDatabase {
             String option = menu();
             switch (option) {
                 case "1" :
-                    // do something
+                    searchMemeByTitle();
                     break;
                 case "2" :
-                    // do something
+                    searchMemeByCategory();
                     break;
                 case "3" :
-                    // do something
+                    makeFavorite();
                     break;
                 case "4" :
-                    // do something
+                    viewListFavs();
                     break;
                 case "5" :
-                    // do something
+                    viewMeme();
                     break;
                 case "6" :
-                    // do something
+                    addMeme();
+                    break;
+                case "7" :
+                    deleteMeme();
                     break;
                 default :
                     System.out.println("Wrong input");
-                    continue;
+                    break;
             }
         }
     }
@@ -108,9 +116,10 @@ public class MemeDatabase {
         System.out.println("\t1. Search for meme by title");
         System.out.println("\t1. Search for meme by category");
         System.out.println("\t3. Add a meme to favorite");
-        System.out.println("\t4. View a meme");
-        System.out.println("\t5. Add a new meme");
-        System.out.println("\t6. Delete a meme");
+        System.out.println("\t4. View list of favorite memes");
+        System.out.println("\t5. View a meme");
+        System.out.println("\t6. Add a new meme");
+        System.out.println("\t7. Delete a meme");
         System.out.print(">> ");
         return scan.nextLine();
     }
@@ -118,7 +127,76 @@ public class MemeDatabase {
     public void searchMemeByTitle () {
         System.out.print("Enter a title to search by: ");
         String title = scan.nextLine();
-        // initiate query;
+        QueryMaker.searchByTitle(server, title);
+    }
+
+    public void searchMemeByCategory () {
+        System.out.print("Enter a title to search by: ");
+        String category = scan.nextLine();
+        QueryMaker.searchByCategory(server, category);
+    }
+
+    public void makeFavorite() {
+        System.out.println("Enter the meme id:");
+        int temp = scan.nextInt();
+        QueryMaker.favoriteMeme(server, account, temp);
+    }
+
+    public void viewListFavs () {
+        QueryMaker.getFavoriteMeme(server, account);
+    }
+
+    public void addMeme () {
+        String memeTitle = "";
+        String category = "";
+        String username = account.getAccountName();
+        // datetime shit
+        String pictureTitle = "";
+        String pictureURI = "";
+        String done = "";
+        while (!done.equals("y")) {
+            System.out.print("Enter a meme title: \n>> ");
+            memeTitle = scan.nextLine();
+            System.out.print("Enter a category for the meme: \n>> ");
+            category = scan.nextLine();
+            System.out.print("Enter the title for the picture: \n>> ");
+            pictureTitle = scan.nextLine();
+            System.out.print("Enter the location of the picture, press ENTER to continue");
+            scan.nextLine();
+            pictureURI = FileImporter.importMeme();
+            System.out.println("Does this information above look correct? [y/n]");
+            System.out.print(">> ");
+            done = scan.nextLine();
+        }
+
+        QueryMaker.addMeme(server, memeTitle, category, username, pictureTitle, pictureURI);
+
+    }
+
+    public void viewMeme () {
+        System.out.println("Enter a meme id to viewed: ");
+        System.out.print(">> ");
+        int i = scan.nextInt();
+        QueryMaker.viewMeme(server, account, i);
+        String location = "meme/" + i + ".jpg";
+        try {
+            RenderMeme.render(location);
+        } catch (Exception e) {
+            location = "meme/" + i + ".png";
+            try {
+                RenderMeme.render(location);
+            } catch (Exception a) {
+                location = "meme/Duckroll.jpg";
+                RenderMeme.render(location);
+            }
+        }
+    }
+
+    public void deleteMeme () {
+        System.out.println("Enter a meme id: ");
+        System.out.print(">> ");
+        int id = scan.nextInt();
+        QueryMaker.deleteMeme(server, id);
     }
 
 }
