@@ -30,10 +30,11 @@ public class MemeDatabase {
             System.out.println("We have located your account, welcome!");
         } else { // if the user does not have an account and needs to register an account
             while (acc == null) {
-                createAccount(username, password, email);
-                acc = doCreateAccount(ms, username, password, email);
+                //createAccount(username, password, email);
+                //System.out.println("Account: " + username + email + password);
+                acc = doCreateAccount(ms);
                 if (acc == null) {
-                    System.out.println("username is already taken");
+                    System.out.println("username is already taken, try again");
                 }
             }
         }
@@ -48,9 +49,25 @@ public class MemeDatabase {
     }
 
     // actuall creates the account
-    public static boolean doCreateAccount (MySQLServer ms, String username, String password, String email) { // make a query to DB to insert a new account
-        Account temp = QueryMaker.createAccount(ms, username, email, password);
-        return true; // test stuf
+    public static Account doCreateAccount (MySQLServer ms) { // make a query to DB to insert a new account
+        String username = "";
+        String email = "";
+        String password = "";
+
+        String confirm = "";
+        while (!confirm.equals("y")) {
+            username = getInput("Enter a username you want ");
+            password = getInput("Enter a password you want ");
+            email = getInput("Enter your email addres: ");
+            System.out.println("\n============================\n");
+            System.out.println("Username: " + username);
+            System.out.println("Password: " + password);
+            System.out.println("Email: " + email);
+            confirm = getInput("Does this information look correct? [y/n]: ");
+        }
+        //System.out.println("Account: " + username + email + password);
+        return QueryMaker.createAccount(ms, username, email, password);
+        //return temp;
     }
 
     public static String getInput (String question) {

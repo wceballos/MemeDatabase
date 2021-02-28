@@ -32,7 +32,6 @@ public class QueryMaker {
         Statement stmt = null;
         ResultSet rs = null;
         String query = "select account.username, account.email, account.password from account where account.username = " + "'" + username + "'" + " and account.password = " + "'" + password + "'";
-        System.out.println(query);
         try {
             Class.forName(ms.getDriver());
             conn = QueryMaker.makeConnection(ms);
@@ -205,21 +204,22 @@ public class QueryMaker {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
-        String preQuery = "select username from meme where username = '" + username + "'";
+        String preQuery = "select * from account where username = '" + username + "'";
         Account temp = null;
         try {
             conn = QueryMaker.makeConnection(ms);
             stmt = conn.createStatement();
             rs = stmt.executeQuery(preQuery);
-            if (!rs.next()) {
+            if (rs.next()) {
+                temp = null;
+            } else {
+                query = "insert into account(username, email, password) values('" + username + "','" + email + "','" + password + "')";
                 stmt = conn.createStatement();
                 stmt.executeUpdate(query);
                 temp = new Account(username, email, password);
-            } else {
-                temp = null;
             }
         } catch (SQLException e) {
-            
+            e.printStackTrace();
         } finally {
             closeConnection(conn, stmt, rs);
             return temp;
