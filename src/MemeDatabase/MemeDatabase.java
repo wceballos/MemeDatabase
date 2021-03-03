@@ -124,7 +124,7 @@ public class MemeDatabase {
         System.out.println("\t5. View a meme");
         System.out.println("\t6. Add a new meme");
         System.out.println("\t7. Delete a meme");
-        System.out.println("\tq. Exit the program");
+        System.out.println("\tq. Exit Meme Database");
         System.out.print(">> ");
         return scan.nextLine();
     }
