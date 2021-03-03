@@ -114,7 +114,7 @@ public class MemeDatabase {
     public String menu () {
         System.out.println("Menu:");
         System.out.println("\t1. Search for meme by title");
-        System.out.println("\t1. Search for meme by category");
+        System.out.println("\t2. Search for meme by category");
         System.out.println("\t3. Add a meme to favorite");
         System.out.println("\t4. View list of favorite memes");
         System.out.println("\t5. View a meme");
