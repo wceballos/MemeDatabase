@@ -19,8 +19,10 @@ INSERT INTO picture
 VALUE ('Goosebumps', 'Goosebumps-7843.png');
 INSERT INTO contains
 VALUE (7, 'Goosebumps', 5);
+INSERT INTO template
+VALUE (5);
 
--- 4 - Search for a meme
+-- 4 - Search for a meme by title
 SELECT *
 FROM meme,
      (SELECT contains.meme_id
@@ -55,7 +57,13 @@ WHERE viewed.meme_id = meme.meme_id
     AND account.username = viewed.username
     AND  account.username = 'lurker';
 
--- 10 - Count how many favorites every meme has
+-- 10 - search meme by category
+SELECT *
+FROM meme
+WHERE meme.category = 'Bernie'
+
+-- 11 - Count how many favorites every meme has
 SELECT meme.meme_id, meme_title, COUNT(favorite) AS users_favorited
 FROM meme LEFT JOIN viewed v ON meme.meme_id = v.meme_id
 GROUP BY meme.meme_id;
+

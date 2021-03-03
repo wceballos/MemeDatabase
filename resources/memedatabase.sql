@@ -1,3 +1,4 @@
+
 DROP DATABASE IF EXISTS `memes`;
 CREATE DATABASE IF NOT EXISTS `memes`;
 USE `memes`;

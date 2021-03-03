@@ -3,13 +3,11 @@ package MemeDatabase;
 public class Account {
 
     private String accountName;
-    private String userID; // may need to change
     private String email;
     private String password;
 
-    public Account (String initAccountName, String initUserID, String initEmail, String initPassword) {
+    public Account (String initAccountName, String initEmail, String initPassword) {
         this.accountName = initAccountName;
-        this.userID = initUserID;
         this.email = initEmail;
         this.password = initPassword;
     }
@@ -18,12 +16,12 @@ public class Account {
         return this.accountName;
     }
 
-    public String getUserID () {
-        return this.userID;
-    }
-
     public String getEmail () {
         return this.email;
+    }
+
+    public String getPassword () {
+        return this.password;
     }
 
     
