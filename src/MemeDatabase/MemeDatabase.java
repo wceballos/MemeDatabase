@@ -104,6 +104,10 @@ public class MemeDatabase {
                 case "7" :
                     deleteMeme();
                     break;
+                case "q" :
+                    System.out.println("Thank you for using MemeDatabase. You are now logged out.");
+                    System.exit(0);
+                    break;
                 default :
                     System.out.println("Wrong input");
                     break;
@@ -120,6 +124,7 @@ public class MemeDatabase {
         System.out.println("\t5. View a meme");
         System.out.println("\t6. Add a new meme");
         System.out.println("\t7. Delete a meme");
+        System.out.println("\tq. Exit the program");
         System.out.print(">> ");
         return scan.nextLine();
     }
